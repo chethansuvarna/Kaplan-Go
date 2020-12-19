@@ -7,12 +7,8 @@ COPY   .  /go/src/Kaplan-Go
 
 WORKDIR /go/src/Kaplan-Go
 
-# RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
 ENV GO111MODULE=on
-RUN go mod init && go clean
-
-RUN  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o Kaplan-Go
 
 FROM alpine
 RUN apk add --no-cache openssh
