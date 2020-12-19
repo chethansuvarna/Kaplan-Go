@@ -2,13 +2,15 @@ package population
 
 import (
 	"Kaplan-Go/config"
+	"Kaplan-Go/constants"
 	"Kaplan-Go/httpGeneric"
 	"Kaplan-Go/models"
+	"Kaplan-Go/utils"
 	"encoding/json"
-	"fmt"
 	"log"
 	"sort"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -56,10 +58,12 @@ func (service populationService) GetCountries(context *gin.Context) (result map[
 func (service populationService) GetPopulationForCountry(context *gin.Context, requestBody models.PopulationRequest) (resp models.PopulationResponse, err error) {
 	ch := make(chan interface{})
 	countries := requestBody.Countries
+	currentTime := time.Now()
+
 	clientPopulation := make(map[int]interface{})
 	errorMap := make([]map[string]interface{}, 0)
 	for _, country := range countries {
-		go service.MakeRequest(service.config.GetPopulationEndpoint()+country+"/2020-12-18/", country, ch, context)
+		go service.MakeRequest(service.config.GetPopulationEndpoint()+country+"/"+utils.GetTimeInFormat(constants.TimeFormatForGetPopulation, currentTime)+"/", country, ch, context)
 	}
 	for range countries {
 		response := <-ch
@@ -78,7 +82,7 @@ func (service populationService) GetPopulationForCountry(context *gin.Context, r
 	for k := range clientPopulation {
 		keys = append(keys, k)
 	}
-	if strings.TrimSpace(strings.ToLower(requestBody.Sort)) == "ascending" {
+	if strings.TrimSpace(strings.ToLower(requestBody.Sort)) == constants.Ascending {
 		sort.Ints(keys)
 		for _, k := range keys {
 			resp.Population = append(resp.Population, map[string]interface{}{"country": clientPopulation[k], "population": k})
@@ -101,7 +105,6 @@ func (service populationService) MakeRequest(url, country string, ch chan<- inte
 	)
 	responseBody, errMsg := make(map[int]interface{}), make(map[string]interface{})
 
-	fmt.Println("inside make request", url)
 	responsebytes, err := service.httpClient.Get(context, url)
 	if err != nil {
 		log.Printf("error while calling third party URL:%s Err:-%v", url, err)

@@ -23,8 +23,8 @@ func NewHttpGenericClient(timeout int, config config.Config) Client {
 	return HttpGenericClient{client: http.Client{Timeout: time.Second * time.Duration(timeout)}, config: config}
 }
 
+// Get generic method to make get calls
 func (httpClient HttpGenericClient) Get(context *gin.Context, url string) (responseBody []byte, err error) {
-
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return
