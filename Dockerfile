@@ -1,11 +1,11 @@
 FROM golang:1.13 AS builder
 
 # create a working directory
-RUN mkdir -p  /go/src/Kaplan
+RUN mkdir -p  /go/src/Kaplan-Go
 
 COPY   .  /go/src/Kaplan-Go
 
-WORKDIR /go/src/Kaplan/Kaplan-Go
+WORKDIR /go/src/Kaplan-Go
 
 # RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
