@@ -1,0 +1,5 @@
+{
+    "port" : "8080",
+    "getCountriesEndPoint":"https://d6wn6bmjj722w.population.io/1.0/countries",
+    "getPopulationEndpoint":"https://d6wn6bmjj722w.population.io/1.0/population/"
+}
