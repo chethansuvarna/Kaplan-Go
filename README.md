@@ -1,6 +1,6 @@
 ### prerequisites
-1. Go must be installed in your system refer this link to install `https://golang.org/doc/install`
-2. Docker must be installed in your system refer this link to install `https://docs.docker.com/engine/install/`
+1. Go must be installed in your system refer this link to install https://golang.org/doc/install
+2. Docker must be installed in your system refer this link to install https://docs.docker.com/engine/install/
 
 ### Setup
 1. Download the repo
